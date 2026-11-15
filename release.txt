@@ -1,0 +1,7 @@
+Release: v1.0 — Initial SCM Baseline
+
+- Added modular Python student performance application.
+- Added student data module and reusable score helper functions.
+- Added README and dependency declaration.
+- Established main, dev, feature and maintenance branches.
+- Protected main through pull-request review.
