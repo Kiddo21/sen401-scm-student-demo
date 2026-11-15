@@ -1,0 +1,32 @@
+services:
+  inventory-api:
+    build: .
+    container_name: sen401-inventory-api
+    ports:
+      - "8000:8000"
+    environment:
+      INVENTORY_DB_PATH: /app/data/inventory.db
+      INVENTORY_CSV_PATH: /app/source_data/inventory.csv
+    volumes:
+      - inventory_data:/app/data
+      - ./data:/app/source_data:ro
+    restart: unless-stopped
+
+  database-backup:
+    build: .
+    container_name: sen401-inventory-backup
+    command: ["python", "backup.py"]
+    environment:
+      INVENTORY_DB_PATH: /app/data/inventory.db
+      BACKUP_DIR: /app/backups
+      BACKUP_INTERVAL_SECONDS: "60"
+    volumes:
+      - inventory_data:/app/data
+      - inventory_backups:/app/backups
+    depends_on:
+      - inventory-api
+    restart: unless-stopped
+
+volumes:
+  inventory_data:
+  inventory_backups:

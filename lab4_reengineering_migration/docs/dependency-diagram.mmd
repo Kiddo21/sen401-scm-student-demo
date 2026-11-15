@@ -1,0 +1,12 @@
+flowchart TD
+    Client[User / API Client] --> API[app.py - FastAPI routes]
+    API --> Models[models.py - Pydantic validation]
+    API --> Services[services.py - application logic]
+    Services --> Repository[repository.py - SQL queries]
+    Repository --> Database[database.py - SQLite connections]
+    Database --> SQLite[(inventory.db)]
+    Startup[app startup] --> Migration[migrate.py - CSV import]
+    Migration --> Repository
+    Backup[backup.py - backup sidecar] --> SQLite
+    Backup --> Backups[(backup volume)]
+    CSV[(data/inventory.csv)] --> Migration
